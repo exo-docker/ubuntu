@@ -13,11 +13,7 @@ ENV TINI_VERSION v0.18.0
 ENV GOSU_VERSION 1.10
 
 ENV TERM=xterm \
-    DEBIAN_FRONTEND=noninteractive \
-    # Local
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:UTF-8 \
-    LC_ALL=en_US.UTF-8
+    DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /tmp
 
@@ -41,6 +37,10 @@ RUN apt-get -qq update \
   && apt-get -qq -y autoremove \
   && apt-get -qq -y clean \
   && rm -rf /var/lib/apt/lists/*
+
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8
 
 # Installing Tini
 RUN set -ex \

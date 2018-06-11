@@ -6,6 +6,7 @@ Ubuntu container for eXo needs
 | ------------------------------- | -------------- |
 | *exoplatform/ubuntu*:**latest** | 18.04 LTS      |
 | *exoplatform/ubuntu*:**v1804**  | 18.04 LTS      |
+| *exoplatform/ubuntu*:**v1604**  | 16.04 LTS      |
 
 ## image content
 
