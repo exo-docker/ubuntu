@@ -32,6 +32,17 @@ $ gosu 1000:1 id
 
 - tooling : gpg, curl, wget, unzip, htop
 
+- `wait-for-it.sh` utility script to test and wait on the availability of a TCP host and port (usefull to wait for another container availability) ([more info](https://github.com/vishnubob/wait-for-it))
+
+```bash
+#!/usr/bin/env bash
+#
+# wait for a mysql database availability during a maximum of 60 seconds
+# and make the container startup failing if the 60 seconds timeout is reached
+#
+wait-for-it.sh my-db:3306 -s -t 60 || { echo "ERROR mysql database unavailable after 60s ! abort ..."; exit 1; }
+```
+
 - Ubuntu packages repositories
 
 ```txt

@@ -33,6 +33,7 @@ RUN apt-get -qq update \
   && apt-get -qq -y install ${_APT_OPTIONS} \
     wget \
     curl \
+    netcat \
     unzip \
     gpg \
     apt-transport-https \
@@ -76,6 +77,12 @@ RUN set -ex \
     && gpg --verify /usr/local/bin/gosu.asc \
     && rm /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu
+
+# Installing wait-for-it.sh utility
+COPY --chown=root:root bin/wait-for-it.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wait-for-it.sh \
+    && ln -s /usr/local/bin/wait-for-it.sh /usr/local/bin/wait-for.sh \
+    && ln -s /usr/local/bin/wait-for-it.sh /usr/local/bin/wait-for
 
 # Create needed directories
 ENV DOWNLOAD_DIR /srv/downloads
