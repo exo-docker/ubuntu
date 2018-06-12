@@ -17,12 +17,18 @@ ENV TERM=xterm \
 
 WORKDIR /tmp
 
-# Install some useful or needed tools
+# Install base packages
 # --force-confold: do not modify the current configuration file, the new version is installed with a .dpkg-dist suffix. With this option alone, even configuration
 #   files that you have not modified are left untouched. You need to combine it with
 # --force-confdef to let dpkg overwrite configuration files that you have not modified.
 ENV _APT_OPTIONS -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 RUN apt-get -qq update \
+  && apt-get -qq -y install ${_APT_OPTIONS} lsb-release \
+  && echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main restricted universe multiverse" > /etc/apt/sources.list \
+  && echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-updates main restricted universe multiverse" >> /etc/apt/sources.list \
+  && echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-backports main restricted universe multiverse" >> /etc/apt/sources.list \
+  && echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-security main restricted universe multiverse" >> /etc/apt/sources.list \
+  && apt-get -qq update \
   && apt-get -qq -y upgrade ${_APT_OPTIONS} \
   && apt-get -qq -y install ${_APT_OPTIONS} \
     wget \
@@ -31,7 +37,6 @@ RUN apt-get -qq update \
     gpg \
     locales \
     expect \
-    lsb-release \
     htop \
   && locale-gen en_US.UTF-8 \
   && apt-get -qq -y autoremove \
