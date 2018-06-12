@@ -79,8 +79,9 @@ RUN set -ex \
     && chmod +x /usr/local/bin/gosu
 
 # Installing wait-for-it.sh utility
-COPY --chown=root:root bin/wait-for-it.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/wait-for-it.sh \
+COPY bin/wait-for-it.sh /usr/local/bin/
+RUN chown root:root /usr/local/bin/wait-for-it.sh \
+    && chmod +x /usr/local/bin/wait-for-it.sh \
     && ln -s /usr/local/bin/wait-for-it.sh /usr/local/bin/wait-for.sh \
     && ln -s /usr/local/bin/wait-for-it.sh /usr/local/bin/wait-for
 
@@ -93,7 +94,8 @@ RUN echo "alias ll='ls -al --color'" > /etc/profile.d/aliases.sh \
     echo "alias rm='rm -i'" >> /etc/profile.d/aliases.sh
 
 # Configure htop for root user
-ADD --chown=root:root conf/htoprc.conf /root/.config/htop/htoprc
+COPY conf/htoprc.conf /root/.config/htop/htoprc
+RUN chown root:root /root/.config/htop/htoprc
 
 ENTRYPOINT ["/usr/local/bin/tini", "--"]
 CMD [ "bash" ]
