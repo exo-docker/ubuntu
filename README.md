@@ -10,9 +10,29 @@ Ubuntu container for eXo needs
 
 ## image content
 
-* [Tini](https://github.com/krallin/tini) v0.18.0 - valid `init` for containers
-* [gosu](https://github.com/tianon/gosu) v1.10 - sudo / su replacement for containers
-* tooling : gpg, curl, wget, unzip, htop
+- [Tini](https://github.com/krallin/tini) v0.18.0 - valid `init` for containers ([more info](https://github.com/krallin/tini))
+
+```Dockerfile
+# the default entrypoint should remain :
+ENTRYPOINT ["/usr/local/bin/tini", "--"]
+# define in CMD your default image launch parameters
+CMD ["/your/program", "-and", "-its", "arguments"]
+```
+
+- [gosu](https://github.com/tianon/gosu) v1.10 - sudo / su replacement for containers ([more info](https://github.com/tianon/gosu))
+
+```bash
+# gosu is a sudo and su replacement
+# Usage: gosu user-spec command [args]
+
+$ gosu tianon bash
+$ gosu nobody:root bash -c 'whoami && id'
+$ gosu 1000:1 id
+```
+
+- tooling : gpg, curl, wget, unzip, htop
+
+- Ubuntu packages repositories
 
 ```txt
 deb http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
