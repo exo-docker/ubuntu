@@ -1,12 +1,12 @@
 # exoplatform/ubuntu Docker image
 
-Ubuntu container for eXo needs
+Supported tags and respective `Dockerfile` links
 
-| DOCKER IMAGE                    | UBUNTU VERSION            |
-| ------------------------------- | ------------------------- |
-| *exoplatform/ubuntu*:**latest** | 18.04 LTS (Bionic Beaver) |
-| *exoplatform/ubuntu*:**v1804**  | 18.04 LTS (Bionic Beaver) |
-| *exoplatform/ubuntu*:**v1604**  | 16.04 LTS (Xenial Xerus)  |
+| Ubuntu edition       | Docker tags             | Dockerfile                                 |
+| -------------------- | ----------------------- | ------------------------------------------ |
+| Ubuntu Bionic Beaver | `18.04`, `18`           | [( 18.04/Dockerfile )](./18.04/Dockerfile) |
+| Ubuntu Xenial Xerus  | `16.04`, `16`, `latest` | [( 16.04/Dockerfile )](./16.04/Dockerfile) |
+
 
 ## image content
 
@@ -46,10 +46,10 @@ wait-for-it.sh my-db:3306 -s -t 60 || { echo "ERROR mysql database unavailable a
 - Ubuntu packages repositories
 
 ```txt
-deb http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu bionic-updates main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-backports main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-security main restricted universe multiverse
 ```
 
 ## run
