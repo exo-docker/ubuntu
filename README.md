@@ -1,4 +1,4 @@
-# exoplatform/ubuntu Docker image
+# exoplatform/ubuntu Docker image <!-- omit in toc -->
 
 Supported tags and respective `Dockerfile` links
 
