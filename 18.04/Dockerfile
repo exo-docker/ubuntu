@@ -10,7 +10,9 @@ FROM  ubuntu:18.04
 LABEL maintainer="eXo Platform <docker@exoplatform.com>"
 
 ENV TINI_VERSION v0.18.0
+ENV TINI_GPG_KEY 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7
 ENV GOSU_VERSION 1.10
+ENV GOSU_GPG_KEY B42F6819007F00F88E364FD4036A9C25BF357DD4
 
 ENV TERM=xterm \
     DEBIAN_FRONTEND=noninteractive
@@ -36,6 +38,7 @@ RUN apt-get -qq update \
     netcat \
     unzip \
     gpg \
+    gnupg2 \
     apt-transport-https \
     locales \
     expect \
@@ -49,12 +52,14 @@ ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8
 
+# GPG settings
+RUN mkdir ~/.gnupg && chmod 700 ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+
 # Installing Tini
 RUN set -ex \
     && ( \
-        gpg --keyserver hkp://p80.pool.sks-keyservers.net:80    --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
-        || gpg --keyserver pgp.mit.edu                          --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
-        || gpg --keyserver keyserver.pgp.com                    --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
+        gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys ${TINI_GPG_KEY} \
+        || gpg2 --keyserver keyserver.pgp.com          --recv-keys ${TINI_GPG_KEY} \
     )
 
 RUN set -ex \
@@ -66,9 +71,8 @@ RUN set -ex \
 # Installing Gosu
 RUN set -ex \
     && ( \
-        gpg --keyserver hkp://p80.pool.sks-keyservers.net:80    --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-        || gpg --keyserver pgp.mit.edu                          --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-        || gpg --keyserver keyserver.pgp.com                    --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+        gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys ${GOSU_GPG_KEY} \
+        || gpg2 --keyserver keyserver.pgp.com          --recv-keys ${GOSU_GPG_KEY} \
     )
 
 RUN set -ex \
