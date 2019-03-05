@@ -1,0 +1,14 @@
+steps:
+
+# Build the 16.04 and 18.04 versions.
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/exo-docker/ubuntu:16_develop', '.']
+  dir: '16.04'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/exo-docker/ubuntu:18_develop', '.']
+  dir: '18.04'
+
+# store images
+images: 
+- 'gcr.io/exo-docker/ubuntu:16_develop'
+- 'gcr.io/exo-docker/ubuntu:18_develop'
