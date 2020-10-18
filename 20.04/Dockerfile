@@ -59,7 +59,7 @@ RUN mkdir ~/.gnupg && chmod 700 ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirm
 RUN set -ex \
     && ( \
         gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys ${TINI_GPG_KEY} \
-        || gpg2 --keyserver keyserver.pgp.com          --recv-keys ${TINI_GPG_KEY} \
+        || gpg2 --keyserver keyserver.ubuntu.com          --recv-keys ${TINI_GPG_KEY} \
     )
 
 RUN set -ex \
@@ -72,7 +72,7 @@ RUN set -ex \
 RUN set -ex \
     && ( \
         gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys ${GOSU_GPG_KEY} \
-        || gpg2 --keyserver keyserver.pgp.com          --recv-keys ${GOSU_GPG_KEY} \
+        || gpg2 --keyserver keyserver.ubuntu.com          --recv-keys ${GOSU_GPG_KEY} \
     )
 
 RUN set -ex \
