@@ -4,13 +4,14 @@ Supported tags and respective `Dockerfile` links
 
 | Ubuntu edition       | Docker tags             | Dockerfile                                 |
 | -------------------- | ----------------------- | ------------------------------------------ |
+| Ubuntu Focal Fossa   | `20.04`, `20`, `latest` | [( 20.04/Dockerfile )](./20.04/Dockerfile) |
 | Ubuntu Bionic Beaver | `18.04`, `18`           | [( 18.04/Dockerfile )](./18.04/Dockerfile) |
-| Ubuntu Xenial Xerus  | `16.04`, `16`, `latest` | [( 16.04/Dockerfile )](./16.04/Dockerfile) |
+| Ubuntu Xenial Xerus  | `16.04`, `16`           | [( 16.04/Dockerfile )](./16.04/Dockerfile) |
 
 
 ## image content
 
-- [Tini](https://github.com/krallin/tini) v0.18.0 - valid `init` for containers ([more info](https://github.com/krallin/tini))
+- [Tini](https://github.com/krallin/tini) v0.19.0 - valid `init` for containers ([more info](https://github.com/krallin/tini))
 
 ```Dockerfile
 # the default entrypoint should remain :
@@ -19,7 +20,7 @@ ENTRYPOINT ["/usr/local/bin/tini", "--"]
 CMD ["/your/program", "-and", "-its", "arguments"]
 ```
 
-- [gosu](https://github.com/tianon/gosu) v1.10 - sudo / su replacement for containers ([more info](https://github.com/tianon/gosu))
+- [gosu](https://github.com/tianon/gosu) v1.12 - sudo / su replacement for containers ([more info](https://github.com/tianon/gosu))
 
 ```bash
 # gosu is a sudo and su replacement
