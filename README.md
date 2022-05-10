@@ -2,11 +2,12 @@
 
 Supported tags and respective `Dockerfile` links
 
-| Ubuntu edition       | Docker tags             | Dockerfile                                 |
-| -------------------- | ----------------------- | ------------------------------------------ |
-| Ubuntu Focal Fossa   | `20.04`, `20`, `latest` | [( 20.04/Dockerfile )](./20.04/Dockerfile) |
-| Ubuntu Bionic Beaver | `18.04`, `18`           | [( 18.04/Dockerfile )](./18.04/Dockerfile) |
-| Ubuntu Xenial Xerus  | `16.04`, `16`           | [( 16.04/Dockerfile )](./16.04/Dockerfile) |
+| Ubuntu edition         | Docker tags             | Dockerfile                                 |
+| ---------------------- | ----------------------- | ------------------------------------------ |
+| Ubuntu Jammy Jellyfish | `22.04`, `20`, `latest` | [( 22.04/Dockerfile )](./22.04/Dockerfile) |
+| Ubuntu Focal Fossa     | `20.04`, `20`           | [( 20.04/Dockerfile )](./20.04/Dockerfile) |
+| Ubuntu Bionic Beaver   | `18.04`, `18`           | [( 18.04/Dockerfile )](./18.04/Dockerfile) |
+| Ubuntu Xenial Xerus    | `16.04`, `16`           | [( 16.04/Dockerfile )](./16.04/Dockerfile) |
 
 
 ## image content
