@@ -30,6 +30,5 @@ jobs:
       dockerImage: "exoplatform/ubuntu"
       dockerImageTag: ${{ matrix.imageTag }}
       dockerFileContext: ${{ matrix.context }}
-    secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      signImage: true
+    secrets: inherit
