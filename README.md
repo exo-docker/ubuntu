@@ -1,4 +1,5 @@
 # exoplatform/ubuntu Docker image <!-- omit in toc -->
+[![Build & publish eXo Ubuntu images](https://github.com/exo-docker/ubuntu/actions/workflows/build.yml/badge.svg)](https://github.com/exo-docker/ubuntu/actions/workflows/build.yml)
 
 Supported tags and respective `Dockerfile` links
 
