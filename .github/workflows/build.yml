@@ -1,0 +1,35 @@
+name: Build & publish eXo Ubuntu images
+on:
+  schedule:
+    - cron:  '0 20 * * 6' # Every Saturday at 8 PM UTC
+  workflow_dispatch:
+
+jobs:
+  build-ubuntu-images:
+    name: "Build Ubuntu Images"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Ubuntu 20
+          - imageTag: 20
+            context: 20.04
+          - imageTag: 20.04
+            context: 20.04
+          # Ubuntu 22
+          - imageTag: 22
+            context: 22.04
+          - imageTag: 22.04
+            context: 22.04
+          ### Latest
+          - imageTag: latest
+            context: 22.04
+
+    uses: exoplatform/swf-scripts/.github/workflows/buildDockerImage.yml@master
+    with:
+      dockerImage: "exoplatform/ubuntu"
+      dockerImageTag: ${{ matrix.imageTag }}
+      dockerFileContext: ${{ matrix.context }}
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
