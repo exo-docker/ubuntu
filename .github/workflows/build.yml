@@ -21,9 +21,14 @@ jobs:
             context: 22.04
           - imageTag: 22.04
             context: 22.04
+          # Ubuntu 24
+          - imageTag: 24
+            context: 24.04
+          - imageTag: 24.04
+            context: 24.04
           ### Latest
           - imageTag: latest
-            context: 22.04
+            context: 24.04
 
     uses: exoplatform/swf-scripts/.github/workflows/buildDockerImage.yml@master
     with:
