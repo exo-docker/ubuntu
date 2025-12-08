@@ -34,6 +34,9 @@ jobs:
           ### Latest
           - imageTag: latest
             context: 24.04
+          ### Rolling
+          - imageTag: rolling
+            context: rolling
 
     uses: exoplatform/swf-scripts/.github/workflows/buildDockerImage.yml@master
     with:

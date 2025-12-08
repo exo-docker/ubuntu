@@ -1,17 +1,17 @@
 # Dockerizing a base images with:
 #
-#   - Ubuntu 18.04
+#   - Ubuntu rolling
 #
-# Build:    docker build -t exoplatform/ubuntu .
+# Build:    docker build -t exoplatform/ubuntu:rolling .
 #
-# Run:      docker run -ti exoplatform/ubuntu
+# Run:      docker run -ti exoplatform/ubuntu:rolling
 
-FROM  ubuntu:18.04
+FROM  ubuntu:rolling
 LABEL maintainer="eXo Platform <docker@exoplatform.com>"
 
-ENV TINI_VERSION v0.18.0
+ENV TINI_VERSION v0.19.0
 ENV TINI_GPG_KEY 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7
-ENV GOSU_VERSION 1.10
+ENV GOSU_VERSION 1.19
 ENV GOSU_GPG_KEY B42F6819007F00F88E364FD4036A9C25BF357DD4
 
 ENV TERM=xterm \
@@ -26,16 +26,12 @@ WORKDIR /tmp
 ENV _APT_OPTIONS -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 RUN apt-get -qq update \
   && apt-get -qq -y install ${_APT_OPTIONS} lsb-release \
-  && echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main restricted universe multiverse" > /etc/apt/sources.list \
-  && echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-updates main restricted universe multiverse" >> /etc/apt/sources.list \
-  && echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-backports main restricted universe multiverse" >> /etc/apt/sources.list \
-  && echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-security main restricted universe multiverse" >> /etc/apt/sources.list \
   && apt-get -qq update \
   && apt-get -qq -y upgrade ${_APT_OPTIONS} \
   && apt-get -qq -y install ${_APT_OPTIONS} \
     wget \
     curl \
-    netcat \
+    netcat-traditional \
     unzip \
     gpg \
     gnupg2 \
@@ -98,6 +94,7 @@ RUN echo "alias ll='ls -al --color'" > /etc/profile.d/aliases.sh \
     echo "alias rm='rm -i'" >> /etc/profile.d/aliases.sh
 
 # Configure htop for root user
+RUN mkdir -p /root/.config/htop
 COPY conf/htoprc.conf /root/.config/htop/htoprc
 RUN chown root:root /root/.config/htop/htoprc
 
