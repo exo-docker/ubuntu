@@ -7,6 +7,7 @@ on:
 jobs:
   build-ubuntu-images:
     name: "Build Ubuntu Images"
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
       packages: write
@@ -37,17 +38,12 @@ jobs:
           ### Rolling
           - imageTag: rolling
             context: rolling
-
-    uses: exoplatform/swf-scripts/.github/workflows/buildDockerImage.yml@master
-    with:
-      dockerImage: "exoplatform/ubuntu"
-      dockerImageTag: ${{ matrix.imageTag }}
-      dockerFileContext: ${{ matrix.context }}
-      signImage: true
-      attestImage: true
-    secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      DOCKER_PRIVATE_KEY_ID: ${{ secrets.DOCKER_PRIVATE_KEY_ID }}
-      DOCKER_PRIVATE_KEY: ${{ secrets.DOCKER_PRIVATE_KEY }}
-      DOCKER_PRIVATE_KEY_PASSPHRASE: ${{ secrets.DOCKER_PRIVATE_KEY_PASSPHRASE }}
+    steps:
+      - name: "Build and push Docker images"
+        uses: exo-actions/buildDockerImage-action@v1
+        with:
+          dockerImage: "exoplatform/ubuntu"
+          dockerImageTag: ${{ matrix.imageTag }}
+          attestImage: true
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
