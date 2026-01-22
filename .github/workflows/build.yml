@@ -44,6 +44,7 @@ jobs:
         with:
           dockerImage: "exoplatform/ubuntu"
           dockerImageTag: ${{ matrix.imageTag }}
+          dockerFileContext: ${{ matrix.context }}
           attestImage: true
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
