@@ -9,10 +9,10 @@
 FROM  ubuntu:rolling
 LABEL maintainer="eXo Platform <docker@exoplatform.com>"
 
-ENV TINI_VERSION v0.19.0
-ENV TINI_GPG_KEY 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7
-ENV GOSU_VERSION 1.19
-ENV GOSU_GPG_KEY B42F6819007F00F88E364FD4036A9C25BF357DD4
+ENV TINI_VERSION=v0.19.0
+ENV TINI_GPG_KEY=595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7
+ENV GOSU_VERSION=1.19-go1.24.11
+ENV GOSU_GPG_KEY=B42F6819007F00F88E364FD4036A9C25BF357DD4
 
 ENV TERM=xterm \
     DEBIAN_FRONTEND=noninteractive
@@ -23,7 +23,7 @@ WORKDIR /tmp
 # --force-confold: do not modify the current configuration file, the new version is installed with a .dpkg-dist suffix. With this option alone, even configuration
 #   files that you have not modified are left untouched. You need to combine it with
 # --force-confdef to let dpkg overwrite configuration files that you have not modified.
-ENV _APT_OPTIONS -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+ENV _APT_OPTIONS="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold"
 RUN apt-get -qq update \
   && apt-get -qq -y install ${_APT_OPTIONS} lsb-release \
   && apt-get -qq update \
@@ -72,10 +72,7 @@ RUN set -ex \
     )
 
 RUN set -ex \
-    && curl -sS -o /usr/local/bin/gosu -L "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
-    && curl -sS -o /usr/local/bin/gosu.asc -L "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
-    && gpg --verify /usr/local/bin/gosu.asc \
-    && rm /usr/local/bin/gosu.asc \
+    && curl -sS -o /usr/local/bin/gosu -L "https://github.com/questdb/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
     && chmod +x /usr/local/bin/gosu
 
 # Installing wait-for-it.sh utility
@@ -86,7 +83,7 @@ RUN chown root:root /usr/local/bin/wait-for-it.sh \
     && ln -s /usr/local/bin/wait-for-it.sh /usr/local/bin/wait-for
 
 # Create needed directories
-ENV DOWNLOAD_DIR /srv/downloads
+ENV DOWNLOAD_DIR=/srv/downloads
 RUN mkdir -p "${DOWNLOAD_DIR}" && chmod -R 777 "${DOWNLOAD_DIR}"
 
 # Add some aliases
