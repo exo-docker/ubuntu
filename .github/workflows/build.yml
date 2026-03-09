@@ -32,6 +32,11 @@ jobs:
             context: 24.04
           - imageTag: 24.04
             context: 24.04
+          # Ubuntu 26
+          - imageTag: 26
+            context: 26.04
+          - imageTag: 26.04
+            context: 26.04
           ### Latest
           - imageTag: latest
             context: 24.04

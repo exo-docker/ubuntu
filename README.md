@@ -7,6 +7,7 @@
 | Ubuntu edition                         | Docker tags             | Dockerfile                                   |
 | -------------------------------------- | ----------------------- | -------------------------------------------- |
 | Ubuntu 24.04 (latest LTS)              | `24.04`, `24`, `latest` | [(24.04/Dockerfile)](./24.04/Dockerfile)     |
+| Ubuntu 26.04 (next LTS)                | `26.04`, `26`           | [(26.04/Dockerfile)](./26.04/Dockerfile)     |
 | Ubuntu Rolling (latest normal release) | `rolling`               | [(rolling/Dockerfile)](./rolling/Dockerfile) |
 | Ubuntu Jammy Jellyfish (22.04 LTS)     | `22.04`, `22`           | [(22.04/Dockerfile)](./22.04/Dockerfile)     |
 | Ubuntu Focal Fossa (20.04 LTS, EOL)    | `20.04`, `20`           | [(20.04/Dockerfile)](./20.04/Dockerfile)     |
