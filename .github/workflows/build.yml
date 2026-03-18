@@ -17,32 +17,25 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Ubuntu 20
-          - imageTag: 20
-            context: 20.04
-          - imageTag: 20.04
-            context: 20.04
-          # Ubuntu 22
-          - imageTag: 22
-            context: 22.04
-          - imageTag: 22.04
-            context: 22.04
-          # Ubuntu 24
-          - imageTag: 24
-            context: 24.04
-          - imageTag: 24.04
-            context: 24.04
-          # Ubuntu 26
-          - imageTag: 26
-            context: 26.04
-          - imageTag: 26.04
-            context: 26.04
-          ### Latest
-          - imageTag: latest
-            context: 24.04
-          ### Rolling
-          - imageTag: rolling
-            context: rolling
+          # Ubuntu 20.04
+          - context: 20.04
+            imageTag: 20,20.04
+
+          # Ubuntu 22.04
+          - context: 22.04
+            imageTag: 22,22.04
+
+          # Ubuntu 24.04 (latest)
+          - context: 24.04
+            imageTag: 24,24.04,latest
+
+          # Ubuntu 26.04
+          - context: 26.04
+            imageTag: 26,26.04
+
+          # Rolling
+          - context: rolling
+            imageTag: rolling
     steps:
       - name: "Build and push Docker images"
         uses: exo-actions/buildDockerImage-action@v1
