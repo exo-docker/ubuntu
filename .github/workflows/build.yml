@@ -32,10 +32,12 @@ jobs:
           # Ubuntu 26.04 (latest)
           - context: 26.04
             imageTag: 26,26.04,latest
+            platforms: linux/arm64,linux/amd64
 
           # Rolling
           - context: rolling
             imageTag: rolling
+            platforms: linux/arm64,linux/amd64
     steps:
       - name: "Build and push Docker images"
         uses: exo-actions/buildDockerImage-action@v1
@@ -43,6 +45,7 @@ jobs:
           dockerImage: "exoplatform/ubuntu"
           dockerImageTag: ${{ matrix.imageTag }}
           dockerFileContext: ${{ matrix.context }}
+          platforms: ${{ matrix.platforms }}
           attestImage: true
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
