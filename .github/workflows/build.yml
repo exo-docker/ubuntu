@@ -25,13 +25,13 @@ jobs:
           - context: 22.04
             imageTag: 22,22.04
 
-          # Ubuntu 24.04 (latest)
+          # Ubuntu 24.04
           - context: 24.04
-            imageTag: 24,24.04,latest
+            imageTag: 24,24.04
 
-          # Ubuntu 26.04
+          # Ubuntu 26.04 (latest)
           - context: 26.04
-            imageTag: 26,26.04
+            imageTag: 26,26.04,latest
 
           # Rolling
           - context: rolling
