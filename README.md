@@ -4,15 +4,17 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-| Ubuntu edition                         | Docker tags             | Dockerfile                                   |
-| -------------------------------------- | ----------------------- | -------------------------------------------- |
-| Ubuntu 26.04 (latest LTS)              | `26.04`, `26`, `latest` | [(26.04/Dockerfile)](./26.04/Dockerfile)     |
-| Ubuntu 24.04                           | `24.04`, `24`           | [(24.04/Dockerfile)](./24.04/Dockerfile)     |
-| Ubuntu Rolling (latest normal release) | `rolling`               | [(rolling/Dockerfile)](./rolling/Dockerfile) |
-| Ubuntu Jammy Jellyfish (22.04 LTS)     | `22.04`, `22`           | [(22.04/Dockerfile)](./22.04/Dockerfile)     |
-| Ubuntu Focal Fossa (20.04 LTS, EOL)    | `20.04`, `20`           | [(20.04/Dockerfile)](./20.04/Dockerfile)     |
+| Ubuntu edition                         | Docker tags             | Dockerfile                                   | Platforms                      |
+| -------------------------------------- | ----------------------- | -------------------------------------------- | ------------------------------ |
+| Ubuntu Rolling (latest normal release) | `rolling`               | [(rolling/Dockerfile)](./rolling/Dockerfile) | `linux/amd64`, `linux/arm64`   |
+| Ubuntu 26.04 (latest LTS)              | `26.04`, `26`, `latest` | [(26.04/Dockerfile)](./26.04/Dockerfile)     | `linux/amd64`, `linux/arm64`   |
+| Ubuntu 24.04                           | `24.04`, `24`           | [(24.04/Dockerfile)](./24.04/Dockerfile)     | `linux/amd64`                  |
+| Ubuntu Jammy Jellyfish (22.04 LTS)     | `22.04`, `22`           | [(22.04/Dockerfile)](./22.04/Dockerfile)     | `linux/amd64`                  |
+| Ubuntu Focal Fossa (20.04 LTS, EOL)    | `20.04`, `20`           | [(20.04/Dockerfile)](./20.04/Dockerfile)     | `linux/amd64`                  |
 
-> **Note:** `latest` points to the most recent LTS (26.04). `rolling` tracks the newest Ubuntu release (non-LTS or LTS).
+> **Note:** 
+> - `latest` points to the most recent LTS (26.04). `rolling` tracks the newest Ubuntu release (non-LTS or LTS).
+> - Multi-platform support (`amd64` and `arm64`) is available for Ubuntu 26.04 and Rolling editions.
 
 ## Image content
 
@@ -71,4 +73,9 @@ cd ./24.04/
 
 # Build the image
 docker build -t exoplatform/ubuntu .
+```
+
+## Multi-platform builds
+
+For Ubuntu 26.04 and Rolling editions, images are built for both `linux/amd64` and `linux/arm64` architectures.
 ```

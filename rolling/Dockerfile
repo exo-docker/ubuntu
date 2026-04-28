@@ -59,8 +59,8 @@ RUN set -ex \
     )
 
 RUN set -ex \
-    && wget -nv -O /usr/local/bin/tini https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini \
-    && wget -nv -O /usr/local/bin/tini.asc https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc \
+    && wget -nv -O /usr/local/bin/tini https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-$(dpkg --print-architecture) \
+    && wget -nv -O /usr/local/bin/tini.asc https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-$(dpkg --print-architecture).asc \
     && gpg --verify /usr/local/bin/tini.asc \
     && chmod +x /usr/local/bin/tini
 
