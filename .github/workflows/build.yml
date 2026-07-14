@@ -4,8 +4,11 @@ on:
     - cron:  '0 20 * * 6' # Every Saturday at 8 PM UTC
   workflow_dispatch:
 
+env:
+  DOCKER_IMAGE: "exoplatform/ubuntu"
+
 jobs:
-  build-ubuntu-images:
+  build-single-arch-images:
     name: "Build Ubuntu Images"
     runs-on: ubuntu-latest
     permissions:
@@ -29,24 +32,112 @@ jobs:
           # Ubuntu 24.04
           - context: 24.04
             imageTag: 24,24.04
-
-          # Ubuntu 26.04 (latest)
-          - context: 26.04
-            imageTag: 26,26.04,latest
-            platforms: linux/arm64,linux/amd64
-
-          # Rolling
-          - context: rolling
-            imageTag: rolling
-            platforms: linux/arm64,linux/amd64
     steps:
       - name: "Build and push Docker images"
         uses: exo-actions/buildDockerImage-action@v1
         with:
-          dockerImage: "exoplatform/ubuntu"
+          dockerImage: ${{ env.DOCKER_IMAGE }}
           dockerImageTag: ${{ matrix.imageTag }}
           dockerFileContext: ${{ matrix.context }}
-          platforms: ${{ matrix.platforms }}
+          attestImage: true
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  build-multi-arch-platforms:
+    name: "Build ${{ matrix.context }} (${{ matrix.arch }})"
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      actions: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Ubuntu 26.04 (latest)
+          - context: 26.04
+            imageTag: 26,26.04,latest
+            platform: linux/amd64
+            runner: ubuntu-latest
+            arch: amd64
+          - context: 26.04
+            imageTag: 26,26.04,latest
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+            arch: arm64
+
+          # Rolling
+          - context: rolling
+            imageTag: rolling
+            platform: linux/amd64
+            runner: ubuntu-latest
+            arch: amd64
+          - context: rolling
+            imageTag: rolling
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+            arch: arm64
+    steps:
+      - uses: exo-actions/buildDockerImage-action/build-and-push-image@v1
+        id: build
+        with:
+          dockerImage: ${{ env.DOCKER_IMAGE }}
+          dockerImageTag: ${{ matrix.imageTag }}
+          dockerFileContext: ${{ matrix.context }}
+          platforms: ${{ matrix.platform }}
+          qemu: "false"
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Save digest
+        run: echo "${{ steps.build.outputs.digest }}" > "/tmp/${{ matrix.arch }}.digest"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.context }}-${{ matrix.arch }}-digest
+          path: /tmp/${{ matrix.arch }}.digest
+
+  merge-multi-arch-manifest:
+    name: "Merge multi-arch manifest (${{ matrix.context }})"
+    runs-on: ubuntu-latest
+    needs:
+      - build-multi-arch-platforms
+    permissions:
+      actions: read
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - context: 26.04
+            imageTag: 26,26.04,latest
+          - context: rolling
+            imageTag: rolling
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: ${{ matrix.context }}-amd64-digest
+          path: /tmp/digests
+      - uses: actions/download-artifact@v8
+        with:
+          name: ${{ matrix.context }}-arm64-digest
+          path: /tmp/digests
+      - uses: exo-actions/buildDockerImage-action/merge-manifest@v1
+        with:
+          dockerImage: ${{ env.DOCKER_IMAGE }}
+          dockerImageTag: ${{ matrix.imageTag }}
+          digestsDir: /tmp/digests
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Get merged digest
+        id: get-digest
+        run: |
+          TAG=$(echo "${{ matrix.imageTag }}" | cut -d, -f1)
+          DIGEST=$(docker buildx imagetools inspect docker.io/${{ env.DOCKER_IMAGE }}:${TAG} --format '{{.Manifest.Digest}}')
+          echo "digest=${DIGEST}" >> $GITHUB_OUTPUT
+      - uses: exo-actions/buildDockerImage-action/attest-image@v1
+        with:
+          dockerImage: ${{ env.DOCKER_IMAGE }}
+          dockerImageDigest: ${{ steps.get-digest.outputs.digest }}
           attestImage: true
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
